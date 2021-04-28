@@ -35,41 +35,27 @@ def add_time(start_time, duration, start_day=None):
         num_days_added += 1
 
     # Change between am and pm
-    if am_pm_changes % 2 == 1 and am_pm == "PM":
+    if am_pm == "PM" and am_pm_changes % 2 == 1:
         am_pm = "AM"
-    elif am_pm_changes % 2 == 1 and am_pm == "AM":
+    elif am_pm == "AM" and am_pm_changes % 2 == 1:
         am_pm = "PM"
 
     end_time = f"{end_hours}:{end_mins} {am_pm}"
     
+    # Add info on day of week, if necessary
     if start_day:
         start_day = start_day.lower()
         lowered_weekdays = []
         for day in weekdays:
             lowered_weekdays.append(day.lower())
         day_index = ((lowered_weekdays.index(start_day)) + num_days_added) % 7
-        print(f"Day index: {day_index}")
         new_day = weekdays[day_index]
         end_time = f"{end_time}, {new_day}"
     
+    # Add info about number of days later, if necessary
     if num_days_added == 1:
         end_time = f"{end_time} (next day)"
     elif num_days_added > 1:
         end_time = f"{end_time} ({num_days_added} days later)"
 
-    print(end_time)
-
-
-# Sample inputs
-add_time("3:00 PM", "3:10")
-# Returns: 6:10 PM
-add_time("11:30 AM", "2:32", "Monday")
-# Returns: 2:02 PM, Monday
-add_time("11:43 AM", "00:20")
-# Returns: 12:03 PM
-add_time("10:10 PM", "3:30")
-# Returns: 1:40 AM (next day)
-add_time("11:43 PM", "24:20", "tueSday")
-# Returns: 12:03 AM, Thursday (2 days later)
-add_time("6:30 PM", "205:12")
-# Returns: 7:42 AM (9 days later)
+    return(end_time)
